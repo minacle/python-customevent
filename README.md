@@ -5,7 +5,7 @@ Lightweight Python Event Module
 
 Sample code
 ----------
-```
+```python
 #!/usr/bin/python
 
 import socket
