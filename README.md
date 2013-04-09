@@ -28,8 +28,8 @@ def on_connecting():
 def on_connected():
   print "connected!"
 
-def on_failed():
-  print "error!"
+def on_failed(ex):
+  print "%s" % repr(ex)
 
 
 if __name__ == "__main__":
@@ -44,12 +44,12 @@ if __name__ == "__main__":
     sock.connect(("127.0.0.1", 80))
     # Raise connected event.
     connected()
-  except:
+  except Exception as ex:
     # Unhandle with __isub__
     connecting -= on_connecting
     # Unhandle with __ixor__
     connected ^= on_connected
     # Raise failed event.
-    failed()
+    failed(ex)
   sock.close()
 ```
