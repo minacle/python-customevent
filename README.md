@@ -1,7 +1,7 @@
-python-event
+python-customevent
 ============
 
-Lightweight Python Event Module
+Lightweight Python Custom Event Module
 
 Sample code
 ----------
@@ -12,7 +12,7 @@ import socket
 sock = None
 
 # Import event class in event module
-from event import event
+from customevent import event
 
 # Initialise event instances.
 connecting = event()
