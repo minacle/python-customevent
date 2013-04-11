@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name="customevent",
-      version="0.3",
+      version="0.3.1",
       description="Lightweight Python Custom Event Module",
       author="Minacle",
       author_email="mayuki.minano@gmail.com",
