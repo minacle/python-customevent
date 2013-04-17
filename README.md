@@ -3,7 +3,13 @@ python-customevent
 
 Lightweight Python Custom Event Module
 
-Sample code
+How to install
+------------
+```
+# pip install customevent
+```
+
+How to use
 ----------
 ```python
 #!/usr/bin/python
