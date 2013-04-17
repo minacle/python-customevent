@@ -23,71 +23,75 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import traceback
+import sys
+
 class event(object):
 	
-	"""Initialise new Eeent object.
-		connected = event()
-	"""
 	def __init__(self):
+		"""Initialise new Eeent object.
+			connected = event()
+		"""
 		self.__handlers__ = []
 	
-	"""Add event handler to event object.
-		connected += on_connected
-	"""
 	def __iadd__(self, handler):
+		"""Add event handler to event object.
+			connected += on_connected
+		"""
 		self.__handlers__.append(handler)
 		return self
 	
-	"""Remove event handler from event object.
-		connected -= on_connected
-	"""
 	def __isub__(self, handler):
+		"""Remove event handler from event object.
+			connected -= on_connected
+		"""
 		self.__handlers__.remove(handler)
 		return self
 	
-	"""
-		connected &= on_connected
-	"""
 	def __iand__(self, handler):
+		"""
+			connected &= on_connected
+		"""
 		self.__handlers__ = [handler] if handler else []
 		return self
 	
-	"""
-		connected |= on_connected
-	"""
 	def __ior__(self, handler):
+		"""
+			connected |= on_connected
+		"""
 		if handler in self.__handlers__:
 			return self
 		return self.__iadd__(handler)
 	
-	"""
-		connected ^= on_connected
-	"""
 	def __ixor__(self, handler):
+		"""
+			connected ^= on_connected
+		"""
 		if handler in self.__handlers__:
 			self.__handlers__.remove(handler)
 		return self
 	
-	"""
-		on_connected in connected
-	"""
 	def __contains__(self, handler):
+		"""
+			on_connected in connected
+		"""
 		return True if handler in self.__handlers__ else False
 	
-	"""
-		connected()
-	"""
 	def __call__(self, *args, **kwargs):
+		"""
+			connected()
+		"""
 		for handler in self.__handlers__:
 			try:
 				handler(*args, **kwargs)
-			except:
+			except Exception as err:
+				traceback.print_exc(file=sys.stderr)
 				continue
 	
-	"""
-		@connected.handler
-		def on_connected(): pass
-	"""
 	def handler(self, func):
+		"""
+			@connected.handler
+			def on_connected(): pass
+		"""
 		self.__ior__(func)
 
