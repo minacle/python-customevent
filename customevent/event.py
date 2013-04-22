@@ -23,15 +23,17 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 """
 
+import threading
 import traceback
 import sys
 
 class event(object):
 	
-	def __init__(self):
-		"""Initialise new Eeent object.
-			connected = event()
+	def __init__(self, threaded=False):
+		"""Initialise new event object.
+			connected = event(threaded=True)
 		"""
+		self.threaded = threaded
 		self.__handlers__ = []
 	
 	def __iadd__(self, handler):
@@ -81,12 +83,17 @@ class event(object):
 		"""
 			connected()
 		"""
-		for handler in self.__handlers__:
-			try:
-				handler(*args, **kwargs)
-			except Exception as err:
-				traceback.print_exc(file=sys.stderr)
-				continue
+		def __event__(*args, **kwargs):
+			for handler in self.__handlers__:
+				try:
+					handler(*args, **kwargs)
+				except Exception as err:
+					traceback.print_exc(file=sys.stderr)
+					continue
+		if self.threaded:
+			threading.Thread(target=__event__, args=args, kwargs=kwargs).start()
+		else:
+			__event__(*args, **kwargs)
 	
 	def handler(self, func):
 		"""
